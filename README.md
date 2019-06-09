@@ -11,10 +11,10 @@ The library uses a class called Serial that includes member functions named afte
 - read()
 - write()
 
-Member functions read() and write() are also overloaded to handle char arrays.
+*Member functions read() and write() are also overloaded to handle char arrays.*
 
 
-Example echo program (Arduino side):
+**Example Echo Program (Arduino):**
 ```c++
 void setup()
 {
@@ -33,7 +33,7 @@ void loop()
 }
 ```
 
-Example echo program (Windows side):
+**Example Echo Program (Windows):**
 ```c++
 #include "pch.h"
 #include "ArduSerial.h"
@@ -63,7 +63,7 @@ int main()
 }
 ```
 
-Expected PC Output:
+***Expected PC Output:***
 ```
 hi
 
