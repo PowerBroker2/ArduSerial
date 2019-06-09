@@ -12,3 +12,59 @@ The library uses a class called Serial that includes member functions named afte
 - write()
 
 Member functions read() and write() are also overloaded to handle char arrays.
+
+
+Example echo program (Arduino side):
+```c++
+void setup()
+{
+  Serial.begin(115200); // COM25
+
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+}
+
+void loop()
+{
+  while(Serial.available())
+  {
+    Serial.write(Serial.read());
+  }
+}
+```
+
+Example echo program (Windows side):
+```c++
+#include "pch.h"
+#include "ArduSerial.h"
+
+Serial Serial1;
+
+int main()
+{
+	Serial1.begin(115200, 25);
+	while (!Serial1.connected);
+
+	if (Serial1.connected())
+	{
+		Serial1.write('h');
+		Serial1.write('i');
+		Serial1.write('\n');
+	}
+
+	while (Serial1.available() < 3);
+
+	while (Serial1.available())
+	{
+		printf("%c", Serial1.read());
+	}
+
+	return 0;
+}
+```
+
+Expected PC Output:
+```
+hi
+
+```
