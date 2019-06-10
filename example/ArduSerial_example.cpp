@@ -12,7 +12,7 @@ Serial Serial1;
 int main()
 {
 	Serial1.begin(115200, 25);
-	while (!Serial1.connected);
+	while (!Serial1.connected());
 
 	if (Serial1.connected())
 	{
