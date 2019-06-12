@@ -4,7 +4,7 @@
 
 
 
-void Serial::begin(unsigned int baud, unsigned int comPortNum)
+void WindowsSerial::begin(unsigned int baud, unsigned int comPortNum)
 {
 	/*
 	char port_name[] = "\\\\.\\COM20";
@@ -76,7 +76,7 @@ void Serial::begin(unsigned int baud, unsigned int comPortNum)
 
 
 
-void Serial::end()
+void WindowsSerial::end()
 {
 	if (this->isConnected)
 	{
@@ -88,7 +88,7 @@ void Serial::end()
 
 
 
-unsigned int Serial::available()
+unsigned int WindowsSerial::available()
 {
 	ClearCommError(this->handler, &this->errors, &this->status);
 	return this->status.cbInQue;
@@ -97,7 +97,7 @@ unsigned int Serial::available()
 
 
 
-int Serial::read()
+int WindowsSerial::read()
 {
 	DWORD bytesRead;
 	unsigned int toRead = 1;
@@ -114,14 +114,14 @@ int Serial::read()
 
 
 
-int Serial::read(char buffer[], unsigned int buf_size)
+int WindowsSerial::read(char buffer[], unsigned int bufSize)
 {
 	DWORD bytesRead;
 	unsigned int toRead;
 	unsigned int bytesAvailable = this->available();
 
-	if (bytesAvailable > buf_size)
-		toRead = buf_size;
+	if (bytesAvailable > bufSize)
+		toRead = bufSize;
 	else
 		toRead = bytesAvailable;
 
@@ -134,7 +134,97 @@ int Serial::read(char buffer[], unsigned int buf_size)
 
 
 
-bool Serial::write(char c)
+bool WindowsSerial::print(const std::string message)
+{
+	DWORD bytesSend;
+	char buffer[100];
+
+	unsigned int bufSize = sprintf(buffer, "%s", message);
+
+	if (!WriteFile(this->handler, buffer, bufSize, &bytesSend, 0))
+	{
+		ClearCommError(this->handler, &this->errors, &this->status);
+		return false;
+	}
+	else
+		return true;
+}
+
+
+
+
+bool WindowsSerial::print(const long double message)
+{
+	DWORD bytesSend;
+	char buffer[100];
+		
+	unsigned int bufSize = sprintf(buffer, "%f", message);
+
+	if (!WriteFile(this->handler, buffer, bufSize, &bytesSend, 0))
+	{
+		ClearCommError(this->handler, &this->errors, &this->status);
+		return false;
+	}
+	else
+		return true;
+}
+
+
+
+
+bool WindowsSerial::print(const long message)
+{
+	DWORD bytesSend;
+	char buffer[100];
+
+	unsigned int bufSize = sprintf(buffer, "%i", message);
+
+	if (!WriteFile(this->handler, buffer, bufSize, &bytesSend, 0))
+	{
+		ClearCommError(this->handler, &this->errors, &this->status);
+		return false;
+	}
+	else
+		return true;
+}
+
+
+
+
+bool WindowsSerial::println(const std::string message)
+{
+	bool result = this->print(message);
+	if (result)
+		result = this->write('\n');
+	return result;
+}
+
+
+
+
+bool WindowsSerial::println(const long double message)
+{
+	bool result = this->print(message);
+	if (result)
+		result = this->write('\n');
+	return result;
+}
+
+
+
+
+bool WindowsSerial::println(const long message)
+{
+	bool result = this->print(message);
+	if (result)
+		result = this->write('\n');
+	return result;
+}
+
+
+
+
+bool WindowsSerial::write(char c)
 {
 	DWORD bytesSend = 1;
 	unsigned int buf_size = 1;
@@ -152,11 +242,11 @@ bool Serial::write(char c)
 
 
 
-bool Serial::write(const char buffer[], unsigned int buf_size)
+bool WindowsSerial::write(const char buffer[], unsigned int bufSize)
 {
 	DWORD bytesSend;
 
-	if (!WriteFile(this->handler, buffer, buf_size, &bytesSend, 0))
+	if (!WriteFile(this->handler, buffer, bufSize, &bytesSend, 0))
 	{
 		ClearCommError(this->handler, &this->errors, &this->status);
 		return false;
@@ -168,7 +258,7 @@ bool Serial::write(const char buffer[], unsigned int buf_size)
 
 
 
-bool Serial::connected()
+bool WindowsSerial::connected()
 {
 	return this->isConnected;
 }
