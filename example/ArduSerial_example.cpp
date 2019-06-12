@@ -4,11 +4,6 @@
 
 
 
-Serial Serial1;
-
-
-
-
 int main()
 {
 	Serial1.begin(115200, 25);
