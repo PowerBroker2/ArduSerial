@@ -38,8 +38,6 @@ void loop()
 #include "pch.h"
 #include "ArduSerial.h"
 
-Serial Serial1;
-
 int main()
 {
 	Serial1.begin(115200, 25);
