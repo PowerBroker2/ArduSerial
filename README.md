@@ -20,7 +20,7 @@ The library uses a class called Serial that includes member functions named afte
 ```c++
 void setup()
 {
-  Serial.begin(115200); // COM25
+  Serial.begin(115200); // COM27
 }
 
 void loop()
