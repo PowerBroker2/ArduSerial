@@ -10,6 +10,8 @@ The library uses a class called Serial that includes member functions named afte
 - available()
 - read()
 - write()
+- print()
+- println()
 
 *Member functions read() and write() are also overloaded to handle char arrays.*
 
@@ -34,12 +36,7 @@ void loop()
 #include <iostream>
 #include "ArduSerial.h"
 
-
-
 std::string data = "hi";
-
-
-
 
 void setup()
 {
@@ -56,9 +53,6 @@ void setup()
 	std::cout << "Connected" << std::endl;
 }
 
-
-
-
 void loop()
 {
 	std::cout << "Sending data: " << data << std::endl;
@@ -74,9 +68,6 @@ void loop()
 	std::cout << std::endl << "Waiting before transmitting again..." << std::endl;
 	Sleep(1000);
 }
-
-
-
 
 int main()
 {
