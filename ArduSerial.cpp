@@ -153,6 +153,14 @@ void WindowsSerial::end()
 
 
 
+WindowsSerial::operator bool()
+{
+	return this->connected();
+}
+
+
+
+
 unsigned int WindowsSerial::available()
 {
 	ClearCommError(this->handler, &this->errors, &this->status);
