@@ -16,7 +16,7 @@ void setup()
 
 	std::cout << "Starting..." << std::endl;
 
-	while (!Serial27.connected());
+	while (!Serial27);
 
 	while (Serial27.available())
 		Serial27.read();
