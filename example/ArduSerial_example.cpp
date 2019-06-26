@@ -37,9 +37,7 @@ void loop()
 
 	std::cout << "Found the following echo:" << std::endl;
 	while (Serial27.available())
-	{
 		printf("%c", Serial27.read());
-	}
 
 	std::cout << std::endl << "Waiting before transmitting again..." << std::endl;
 	Sleep(1000);
