@@ -113,10 +113,10 @@ void WindowsSerial::initializePort(char portName[], unsigned int baud)
 			printf("failed to get current serial parameters");
 		else
 		{
-			dcbSerialParameters.BaudRate = baud;
-			dcbSerialParameters.ByteSize = 8;
-			dcbSerialParameters.StopBits = ONESTOPBIT;
-			dcbSerialParameters.Parity = NOPARITY;
+			dcbSerialParameters.BaudRate    = baud;
+			dcbSerialParameters.ByteSize    = 8;
+			dcbSerialParameters.StopBits    = ONESTOPBIT;
+			dcbSerialParameters.Parity      = NOPARITY;
 			dcbSerialParameters.fDtrControl = DTR_CONTROL_ENABLE;
 
 			if (!SetCommState(handler, &dcbSerialParameters))
@@ -127,9 +127,9 @@ void WindowsSerial::initializePort(char portName[], unsigned int baud)
 
 				// flush any remaining characters in the buffers 
 				PurgeComm(this->handler, PURGE_RXABORT |
-					PURGE_RXCLEAR |
-					PURGE_TXABORT |
-					PURGE_TXCLEAR);
+					                 PURGE_RXCLEAR |
+					                 PURGE_TXABORT |
+					                 PURGE_TXCLEAR);
 
 				// wait as the arduino board will be reseting
 				Sleep(ARDUINO_WAIT_TIME);
