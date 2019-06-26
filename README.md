@@ -19,17 +19,12 @@ The library uses a class called Serial that includes member functions named afte
 void setup()
 {
   Serial.begin(115200); // COM25
-
-  pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
 }
 
 void loop()
 {
   while(Serial.available())
-  {
     Serial.write(Serial.read());
-  }
 }
 ```
 
