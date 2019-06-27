@@ -22,8 +22,8 @@ public:
 	////////////////////////////////////////////////////////
 	// Initialization/Admin Stuff
 	void setPort(unsigned int _comPortNum);
-	void begin(unsigned int baud);
-	void begin(unsigned int baud, unsigned int _comPortNum);
+	void begin(unsigned int _baud);
+	void begin(unsigned int _baud, unsigned int _comPortNum);
 	bool connected();
 	void end();
 
@@ -53,10 +53,11 @@ private:
 	bool isConnected;
 	COMSTAT status;
 	DWORD errors;
-
+	
+	unsigned int baud = CBR_9600;
 	unsigned int comPortNum = NULL;
 
-	void initializePort(char portName[], unsigned int baud);
+	void initializePort(char portName[], unsigned int _baud);
 };
 
 
