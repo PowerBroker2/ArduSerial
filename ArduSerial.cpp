@@ -21,7 +21,7 @@ void WindowsSerial::setPort(unsigned int _comPortNum)
 
 
 
-void WindowsSerial::begin(unsigned int baud)
+void WindowsSerial::begin(unsigned int _baud)
 {
 	/*
 	#define CBR_110             110
@@ -41,6 +41,8 @@ void WindowsSerial::begin(unsigned int baud)
 	#define CBR_256000          256000
 	*/
 
+	this->baud = _baud;
+
 	if (this->comPortNum != NULL)
 	{
 		char format[] = "\\\\.\\COM%i";
@@ -48,14 +50,14 @@ void WindowsSerial::begin(unsigned int baud)
 
 		snprintf(portName, 12, format, this->comPortNum);
 
-		initializePort(portName, baud);
+		initializePort(portName, this->baud);
 	}
 }
 
 
 
 
-void WindowsSerial::begin(unsigned int baud, unsigned int _comPortNum)
+void WindowsSerial::begin(unsigned int _baud, unsigned int _comPortNum)
 {
 	/*
 	#define CBR_110             110
@@ -78,18 +80,21 @@ void WindowsSerial::begin(unsigned int baud, unsigned int _comPortNum)
 	char format[] = "\\\\.\\COM%i";
 	char portName[20];
 
+	this->baud = _baud;
+
 	setPort(_comPortNum);
 	snprintf(portName, 12, format, this->comPortNum);
 
-	initializePort(portName, baud);
+	initializePort(portName, this->baud);
 }
 
 
 
 
-void WindowsSerial::initializePort(char portName[], unsigned int baud)
+void WindowsSerial::initializePort(char portName[], unsigned int _baud)
 {
 	this->isConnected = false;
+
 	this->handler = CreateFileA(static_cast<LPCSTR>(portName), // lpFileName
 		GENERIC_READ | GENERIC_WRITE,  // dwDesiredAccess
 		0,                             // dwShareMode
@@ -113,7 +118,7 @@ void WindowsSerial::initializePort(char portName[], unsigned int baud)
 			printf("failed to get current serial parameters");
 		else
 		{
-			dcbSerialParameters.BaudRate    = baud;
+			dcbSerialParameters.BaudRate    = _baud;
 			dcbSerialParameters.ByteSize    = 8;
 			dcbSerialParameters.StopBits    = ONESTOPBIT;
 			dcbSerialParameters.Parity      = NOPARITY;
@@ -153,18 +158,18 @@ void WindowsSerial::end()
 
 
 
-WindowsSerial::operator bool()
+unsigned int WindowsSerial::available()
 {
-	return this->connected();
+	ClearCommError(this->handler, &this->errors, &this->status);
+	return this->status.cbInQue;
 }
 
 
 
 
-unsigned int WindowsSerial::available()
+WindowsSerial::operator bool()
 {
-	ClearCommError(this->handler, &this->errors, &this->status);
-	return this->status.cbInQue;
+	return this->connected();
 }
 
 
@@ -335,6 +340,11 @@ bool WindowsSerial::write(const char buffer[], unsigned int bufSize)
 
 bool WindowsSerial::connected()
 {
+	if (this->isConnected)
+		return this->isConnected;
+	else
+		this->begin(this->baud);
+
 	return this->isConnected;
 }
 
