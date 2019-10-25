@@ -82,6 +82,10 @@ int main()
 
 ***Expected PC Output:***
 ```
+Starting...
+Connected
+Sending data:  hi
+Looking for echo...
+Found the following echo:
 hi
-
 ```
