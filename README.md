@@ -1,4 +1,5 @@
 # ArduSerial
+[![GitHub version](https://badge.fury.io/gh/PowerBroker2%2FArduSerial.svg)](https://badge.fury.io/gh/PowerBroker2%2FArduSerial)<br /><br />
 Windows C++ library to interface with an Arduino via USB
 
 This library allows Windows C++ programers to interface with COM ports in a way extremely similar to how Arduino's interface with UART ports.
